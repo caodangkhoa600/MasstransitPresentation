@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="../Consumer/Consumer.csproj" />
+  <Project Path="../Contacts/Contacts.csproj" />
+  <Project Path="Publisher.csproj" />
+</Solution>

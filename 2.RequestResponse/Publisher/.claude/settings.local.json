@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"D:\\\\Work\\\\CarMD\\\\Presentation\\\\RequestResponse\\\\Publisher\" -Force)",
+      "Bash(Select-Object Name, Mode)",
+      "Bash(dotnet --version)",
+      "Bash(dotnet build *)",
+      "Bash(Move-Item *)",
+      "Bash(dotnet add *)"
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem -Path \"D:\\\\Work\\\\CarMD\\\\Presentation\\\\MasstransitRabbitMQ\" -Force | Where-Object { $_.Mode -match \"^-\" } | Select-Object FullName)",
+      "PowerShell(tree \"D:\\\\Work\\\\CarMD\\\\Presentation\\\\MasstransitRabbitMQ\" -L 3 -Attributes)",
+      "PowerShell(Get-ChildItem *)",
+      "Bash(dotnet add *)",
+      "Bash(dotnet build *)",
+      "Bash(dotnet new *)",
+      "Bash(Remove-Item \"D:\\\\Work\\\\CarMD\\\\Presentation\\\\MasstransitRabbitMQ\\\\Contracts\\\\Class1.cs\" -Force)",
+      "Bash(Remove-Item \"D:\\\\Work\\\\CarMD\\\\Presentation\\\\MasstransitRabbitMQ\\\\Consumer\\\\Program.cs\" -Force)",
+      "Bash(Remove-Item \"D:\\\\Work\\\\CarMD\\\\Presentation\\\\MasstransitRabbitMQ\\\\Messages\\\\OrderSubmitted.cs\" -Force)",
+      "Bash(Remove-Item \"D:\\\\Work\\\\CarMD\\\\Presentation\\\\MasstransitRabbitMQ\\\\Consumers\\\\OrderSubmittedConsumer.cs\" -Force)",
+      "Bash(dotnet pack *)",
+      "Bash(Get-ChildItem -Path \"D:\\\\Work\\\\CarMD\\\\Presentation\\\\MasstransitRabbitMQ\" -Recurse -File)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(Sort-Object)",
+      "Bash(dotnet run *)",
+      "Bash(echo \"Consumer PID: $!\")",
+      "Bash(docker exec rabbitmq *)"
+    ]
+  }
+}
