@@ -25,7 +25,7 @@ var orderPlaced = new OrderPlacedMessage
     Amount       = 249.99m
 };
 await endpoint.Send(
-    new DomainEvent { Payload = JsonSerializer.Serialize(orderPlaced) },
+    new DomainEvent { Payload = JsonSerializer.SerializeToElement(orderPlaced) },
     ctx => ctx.Headers.Set("ActionType", ActionTypes.OrderPlaced));
 Console.WriteLine($"[SENT] ActionType={ActionTypes.OrderPlaced,-18} OrderId={orderPlaced.OrderId}");
 Console.ReadLine();
@@ -36,7 +36,7 @@ var orderCancelled = new OrderCancelledMessage
     Reason  = "Customer request"
 };
 await endpoint.Send(
-    new DomainEvent { Payload = JsonSerializer.Serialize(orderCancelled) },
+    new DomainEvent { Payload = JsonSerializer.SerializeToElement(orderCancelled) },
     ctx => ctx.Headers.Set("ActionType", ActionTypes.OrderCancelled));
 Console.WriteLine($"[SENT] ActionType={ActionTypes.OrderCancelled,-18} OrderId={orderCancelled.OrderId}");
 Console.ReadLine();
@@ -47,7 +47,7 @@ var orderShipped = new OrderShippedMessage
     TrackingNumber = "TRACK-XYZ-9876"
 };
 await endpoint.Send(
-    new DomainEvent { Payload = JsonSerializer.Serialize(orderShipped) },
+    new DomainEvent { Payload = JsonSerializer.SerializeToElement(orderShipped) },
     ctx => ctx.Headers.Set("ActionType", ActionTypes.OrderShipped));
 Console.WriteLine($"[SENT] ActionType={ActionTypes.OrderShipped,-18} OrderId={orderShipped.OrderId}");
 Console.ReadLine();

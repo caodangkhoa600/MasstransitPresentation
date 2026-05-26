@@ -1,4 +1,4 @@
-using Contacts;
+using Contracts;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -32,26 +32,32 @@ var client = host.Services.GetRequiredService<IRequestClient<GetOrderStatusReque
 
 int[] orderIds = [1001, 1002, 1003, 9999];
 
-foreach (var orderId in orderIds)
+for (var i = 0; i < orderIds.Length; i++)
 {
+    var orderId = orderIds[i];
     Console.WriteLine($"[Publisher] --> Sending request for OrderId: {orderId}");
 
-    try
-    {
-        var response = await client.GetResponse<GetOrderStatusResponse>(
-            new GetOrderStatusRequest { OrderId = orderId });
+    var response = await client.GetResponse<GetOrderStatusResponse>(
+        new GetOrderStatusRequest { OrderId = orderId });
 
-        var msg = response.Message;
+    var msg = response.Message;
+    if (msg.Status == "NotFound")
+    {
+        Console.WriteLine($"[Publisher] <-- Order {orderId} not found.");
+    }
+    else
+    {
         Console.WriteLine($"[Publisher] <-- Response received:");
         Console.WriteLine($"            Status   : {msg.Status}");
         Console.WriteLine($"            Customer : {msg.CustomerName}");
         Console.WriteLine($"            Total    : ${msg.TotalAmount:F2}");
     }
-    catch (RequestTimeoutException)
+
+    if (i < orderIds.Length - 1)
     {
-        Console.WriteLine($"[Publisher] <-- TIMEOUT: no response for OrderId {orderId}");
+        Console.WriteLine("[Publisher] Press Enter to send next request...");
+        Console.ReadLine();
     }
-    Console.ReadLine();
 }
 
 await host.StopAsync();

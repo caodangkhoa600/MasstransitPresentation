@@ -1,9 +1,7 @@
 using MassTransit;
 using Contracts;
 
-// Scenario 1 — fan-out    : dotnet run (uses default queue "consumer-b")
-// Scenario 2 — competing  : dotnet run -- shared-queue
-var queueName = args.Length > 0 ? args[0] : "consumer-b";
+var queueName = "consumer-b";
 
 Console.WriteLine($"=== ConsumerB === (queue: {queueName})");
 Console.WriteLine("Waiting for messages... Press ENTER to exit.");

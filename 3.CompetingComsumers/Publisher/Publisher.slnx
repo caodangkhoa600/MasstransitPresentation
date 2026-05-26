@@ -1,6 +1,4 @@
 <Solution>
-  <Project Path="../ConsumerA/ConsumerA.csproj" />
-  <Project Path="../ConsumerB/ConsumerB.csproj" />
   <Project Path="../Contracts/Contracts.csproj" />
   <Project Path="Publisher.csproj" />
 </Solution>

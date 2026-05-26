@@ -1,9 +1,9 @@
-using MassTransit;
 using Contracts;
+using MassTransit;
 
-var queueName = "consumer-a";
+var instanceId = Guid.NewGuid().ToString("N")[..6].ToUpper();
 
-Console.WriteLine($"=== ConsumerA === (queue: {queueName})");
+Console.WriteLine($"=== Consumer [{instanceId}] === (queue: order-processing)");
 Console.WriteLine("Waiting for messages... Press ENTER to exit.");
 Console.WriteLine();
 
@@ -15,12 +15,12 @@ var bus = Bus.Factory.CreateUsingRabbitMq(cfg =>
         h.Password("CarMD1234");
     });
 
-    cfg.ReceiveEndpoint(queueName, e =>
+    cfg.ReceiveEndpoint("order-processing", e =>
     {
         e.Handler<OrderPlaced>(ctx =>
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine($"[ConsumerA] ✔ OrderId: {ctx.Message.OrderId}  Customer: {ctx.Message.CustomerName}  Product: {ctx.Message.Product}");
+            Console.WriteLine($"[{instanceId}] ✔ OrderId: {ctx.Message.OrderId}  Product: {ctx.Message.Product}");
             Console.ResetColor();
             return Task.CompletedTask;
         });

@@ -23,13 +23,7 @@ while (true)
         break;
 
     var order = new OrderPlaced(Guid.NewGuid(), "Placed", $"Widget-{DateTime.Now:HH:mm:ss}");
-    // Publish
-    // await bus.Publish(order);
-    //Console.ReadLine();
-
-    // Send
-    var endpoint = await bus.GetSendEndpoint(new Uri("queue:consumer-a"));
-    await endpoint.Send(order);
+    await bus.Publish(order);
 
     Console.ForegroundColor = ConsoleColor.Green;
     Console.WriteLine($"[Publisher] Sent  → OrderId: {order.OrderId}  Product: {order.Product}");

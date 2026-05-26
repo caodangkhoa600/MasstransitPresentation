@@ -23,17 +23,17 @@ public class OrderEventConsumer : IConsumer<DomainEvent>
         switch (actionType)
         {
             case ActionTypes.OrderPlaced:
-                var placed = JsonSerializer.Deserialize<OrderPlacedMessage>(payload);
+                var placed = payload.Deserialize<OrderPlacedMessage>();
                 Console.WriteLine($"  → Order PLACED   | Id: {placed!.OrderId} | Customer: {placed.CustomerName} | Amount: {placed.Amount:C}");
                 break;
 
             case ActionTypes.OrderCancelled:
-                var cancelled = JsonSerializer.Deserialize<OrderCancelledMessage>(payload);
+                var cancelled = payload.Deserialize<OrderCancelledMessage>();
                 Console.WriteLine($"  → Order CANCELLED | Id: {cancelled!.OrderId} | Reason: {cancelled.Reason}");
                 break;
 
             case ActionTypes.OrderShipped:
-                var shipped = JsonSerializer.Deserialize<OrderShippedMessage>(payload);
+                var shipped = payload.Deserialize<OrderShippedMessage>();
                 Console.WriteLine($"  → Order SHIPPED   | Id: {shipped!.OrderId} | Tracking: {shipped.TrackingNumber}");
                 break;
 

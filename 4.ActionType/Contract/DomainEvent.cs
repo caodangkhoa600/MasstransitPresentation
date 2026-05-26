@@ -1,6 +1,8 @@
+using System.Text.Json;
+
 namespace Contract;
 
 public record DomainEvent
 {
-    public string Payload { get; init; } = string.Empty;
+    public JsonElement Payload { get; init; }
 }

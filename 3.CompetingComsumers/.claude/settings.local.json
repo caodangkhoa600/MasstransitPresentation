@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(dir)"
+      "Bash(dir)",
+      "Bash(Get-ChildItem -Path \"D:\\\\Work\\\\CarMD\\\\Presentation\\\\3.CompetingComsumers\" -Recurse -Force)",
+      "Bash(Select-Object -Property FullName, PSIsContainer)",
+      "Bash(Sort-Object FullName)",
+      "Bash(Format-Table -AutoSize)"
     ]
   }
 }

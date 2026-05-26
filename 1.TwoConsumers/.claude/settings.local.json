@@ -1,7 +1,13 @@
 {
   "permissions": {
     "allow": [
-      "Bash(dotnet build *)"
+      "Bash(dotnet build *)",
+      "Bash(Get-ChildItem -Path \"D:\\\\Work\\\\CarMD\\\\Presentation\" -Recurse -Force)",
+      "Bash(Select-Object -Property FullName, PSIsContainer)",
+      "Bash(Sort-Object FullName)",
+      "Bash(Format-Table -AutoSize)",
+      "Bash(Get-ChildItem -Recurse \"D:\\\\Work\\\\CarMD\\\\Presentation\\\\3.CompetingComsumers\")",
+      "Bash(Select-Object FullName)"
     ]
   }
 }

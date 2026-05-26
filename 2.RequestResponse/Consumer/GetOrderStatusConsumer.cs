@@ -1,4 +1,4 @@
-using Contacts;
+using Contracts;
 using MassTransit;
 
 namespace Consumer;
@@ -17,7 +17,8 @@ public class GetOrderStatusConsumer : IConsumer<GetOrderStatusRequest>
         var orderId = context.Message.OrderId;
         Console.WriteLine($"[Consumer] Received request for OrderId: {orderId}");
 
-        await Task.Delay(200); // simulate DB lookup
+        Console.WriteLine($"[Consumer] Looking up order {orderId}...");
+        await Task.Delay(200);
 
         if (Orders.TryGetValue(orderId, out var order))
         {
@@ -38,7 +39,6 @@ public class GetOrderStatusConsumer : IConsumer<GetOrderStatusRequest>
             });
         }
 
-        Console.Write($"[Consumer] Response sent for OrderId: {orderId}");
-        Console.ReadLine();
+        Console.WriteLine($"[Consumer] Response sent for OrderId: {orderId}");
     }
 }
