@@ -1,6 +1,5 @@
 using Contracts;
 using MassTransit;
-using Microsoft.EntityFrameworkCore;
 
 namespace Consumer;
 
@@ -17,27 +16,24 @@ public class OrderCreatedConsumer : IConsumer<OrderCreated>
     {
         var msg = context.Message;
 
-        // Step 1: save business data to the database
+        // Stage business data
         _db.Orders.Add(new OrderRecord
         {
-            Id           = msg.OrderId,
+            Id = msg.OrderId,
             CustomerName = msg.CustomerName,
-            Amount       = msg.Amount,
-            SavedAt      = DateTimeOffset.UtcNow
+            Amount = msg.Amount,
+            SavedAt = DateTimeOffset.UtcNow
         });
 
-        // Step 2: publish a downstream event
-        // With UseBusOutbox(), this Publish is written to the OutboxMessage table
-        // in the SAME database transaction as the OrderRecord above.
+        // Stage outgoing event — the outbox filter captures this into an OutboxMessage
+        // entity on the same DbContext instead of publishing directly to the broker.
         await context.Publish(new OrderProcessed
         {
-            OrderId     = msg.OrderId,
+            OrderId = msg.OrderId,
             ProcessedAt = DateTimeOffset.UtcNow
         });
 
         Console.WriteLine($"  [DB SAVED]   OrderId={msg.OrderId}  Customer={msg.CustomerName}");
         Console.WriteLine($"  [OUTBOX]     OrderProcessed enqueued — will be delivered by relay");
-        // Note: SaveChangesAsync is called by MassTransit's outbox middleware AFTER this method
-        // returns, committing both OrderRecord and OutboxMessage in one atomic transaction.
     }
 }

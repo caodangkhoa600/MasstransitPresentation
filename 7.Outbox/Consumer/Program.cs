@@ -1,6 +1,7 @@
 using Consumer;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -10,14 +11,16 @@ Console.WriteLine("╚═══════════════════�
 Console.WriteLine();
 
 var host = Host.CreateDefaultBuilder(args)
-    .ConfigureServices(services =>
+    .ConfigureServices((ctx, services) =>
     {
+        var connStr = ctx.Configuration.GetConnectionString("OutboxDb");
+
         services.AddDbContext<AppDbContext>(o =>
-            o.UseSqlite("Data Source=outbox-demo.db"));
+            o.UseNpgsql(connStr));
 
         services.AddMassTransit(x =>
         {
-            x.AddConsumer<OrderCreatedConsumer>();
+            x.AddConsumer<OrderCreatedConsumer, OrderCreatedConsumerDefinition>();
             x.AddConsumer<OrderProcessedConsumer>();
 
             // Wire all context.Publish() calls inside consumers through the outbox.
@@ -25,7 +28,7 @@ var host = Host.CreateDefaultBuilder(args)
             // are committed in a single database transaction.
             x.AddEntityFrameworkOutbox<AppDbContext>(o =>
             {
-                o.UseSqlite();
+                o.UsePostgres();
                 o.UseBusOutbox();
             });
 
@@ -48,7 +51,7 @@ using (var scope = host.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     await db.Database.EnsureCreatedAsync();
-    Console.WriteLine("Database ready: outbox-demo.db");
+    Console.WriteLine("Database ready: PostgreSQL (outbox_demo)");
     Console.WriteLine("Tables: Orders, InboxState, OutboxMessage, OutboxState");
     Console.WriteLine();
 }
