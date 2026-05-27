@@ -1,6 +1,0 @@
-<Solution>
-  <Project Path="../Contracts/Contracts.csproj" />
-  <Project Path="../Activities/Activities.csproj" />
-  <Project Path="../CourierHost/CourierHost.csproj" />
-  <Project Path="Publisher.csproj" />
-</Solution>
