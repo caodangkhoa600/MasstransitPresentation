@@ -1,9 +1,8 @@
 namespace Contracts;
 
-public record SubmitOrder
+public record CreateShipment
 {
     public Guid CorrelationId { get; init; }
     public string CustomerName { get; init; } = null!;
-    public decimal Amount { get; init; }
-    public bool SimulateShippingFailure { get; init; }
+    public bool SimulateFailure { get; init; }
 }

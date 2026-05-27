@@ -7,6 +7,13 @@ Console.WriteLine("╔═══════════════════�
 Console.WriteLine("║     Order Saga Host  -  Starting         ║");
 Console.WriteLine("╚══════════════════════════════════════════╝");
 Console.WriteLine();
+Console.WriteLine("Registered:");
+Console.WriteLine("  [SAGA]      OrderStateMachine");
+Console.WriteLine("  [WORKER]    InventoryWorker");
+Console.WriteLine("  [WORKER]    PaymentWorker");
+Console.WriteLine("  [WORKER]    ShippingWorker");
+Console.WriteLine("  [WORKER]    EmailWorker");
+Console.WriteLine();
 
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
@@ -15,6 +22,11 @@ var host = Host.CreateDefaultBuilder(args)
         {
             x.AddSagaStateMachine<OrderStateMachine, OrderState>()
                 .InMemoryRepository();
+
+            x.AddConsumer<InventoryWorker>();
+            x.AddConsumer<PaymentWorker>();
+            x.AddConsumer<ShippingWorker>();
+            x.AddConsumer<EmailWorker>();
 
             x.UsingRabbitMq((context, cfg) =>
             {
@@ -31,8 +43,7 @@ var host = Host.CreateDefaultBuilder(args)
     .Build();
 
 Console.WriteLine("Connecting to RabbitMQ at localhost...");
-Console.WriteLine("State machine registered. Waiting for events.");
-Console.WriteLine("State transitions will appear below:\n");
-Console.WriteLine("──────────────────────────────────────────────────");
+Console.WriteLine("Waiting for events. Transitions appear below:");
+Console.WriteLine("──────────────────────────────────────────────────────────");
 
 await host.RunAsync();

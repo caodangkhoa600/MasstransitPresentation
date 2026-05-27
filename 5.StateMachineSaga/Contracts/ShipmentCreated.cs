@@ -1,6 +1,6 @@
 namespace Contracts;
 
-public record ShipOrder
+public record ShipmentCreated
 {
     public Guid CorrelationId { get; init; }
     public string TrackingNumber { get; init; } = null!;

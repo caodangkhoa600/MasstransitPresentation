@@ -1,6 +1,6 @@
 namespace Contracts;
 
-public record AcceptOrder
+public record InventoryReleased
 {
     public Guid CorrelationId { get; init; }
 }
