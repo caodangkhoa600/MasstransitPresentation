@@ -30,6 +30,7 @@ var host = Host.CreateDefaultBuilder(args)
             {
                 o.UsePostgres();
                 o.UseBusOutbox();
+                o.QueryDelay = TimeSpan.FromSeconds(15);
             });
 
             x.UsingRabbitMq((context, cfg) =>

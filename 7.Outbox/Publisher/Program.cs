@@ -33,7 +33,7 @@ await host.StartAsync();
 var bus = host.Services.GetRequiredService<IPublishEndpoint>();
 
 string[] customers = ["Alice Johnson", "Bob Smith", "Carol White"];
-decimal[] amounts  = [249.99m, 99.50m, 499.00m];
+decimal[] amounts = [249.99m, 99.50m, 499.00m];
 
 for (var i = 0; i < customers.Length; i++)
 {
@@ -43,9 +43,9 @@ for (var i = 0; i < customers.Length; i++)
     var orderId = Guid.NewGuid();
     await bus.Publish(new OrderCreated
     {
-        OrderId      = orderId,
+        OrderId = orderId,
         CustomerName = customers[i],
-        Amount       = amounts[i]
+        Amount = amounts[i]
     });
     Console.WriteLine($"  [SENT] OrderCreated  OrderId={orderId}  Customer={customers[i]}  Amount=${amounts[i]:F2}");
     Console.WriteLine($"         → Switch to Consumer terminal to see the outbox deliver OrderProcessed");
